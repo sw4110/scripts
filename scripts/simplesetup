@@ -1,5 +1,5 @@
 #!/bin/bash
-#Sudo echk
+#Sudo check
 if [ "$USER" != "root" ]
 then
     echo "Please run this as root or with sudo"
