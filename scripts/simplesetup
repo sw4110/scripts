@@ -15,11 +15,13 @@ select opt in "${options[@]}"; do
 		"Yes")
 			sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 			echo "Login by password enabled"
+			sudo systemctl restart ssh.service
 			break
 			;;
 		"Key Only")
 			sed -i 's/#PermitRootLogin yes/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
 			echo "Login by key enabled"
+			sudo systemctl restart ssh.service
 			break
 			;;
 		"Ignore")
