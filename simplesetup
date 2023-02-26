@@ -1,0 +1,52 @@
+#!/bin/bash
+#Sudo echk
+if [ "$USER" != "root" ]
+then
+    echo "Please run this as root or with sudo"
+    exit 2
+fi
+
+#SSHD config 
+echo "---------"
+PS3='Permit password login for root?: '
+options=("Yes" "Key Only" "Ignore")
+select opt in "${options[@]}"; do
+	case $opt in
+		"Yes")
+			sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+			echo "Login by password enabled"
+			break
+			;;
+		"Key Only")
+			sed -i 's/#PermitRootLogin yes/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
+			echo "Login by key enabled"
+			break
+			;;
+		"Ignore")
+			echo "No change to SSH config"
+			break
+			;;
+		*) echo "invalid option $REPLY";;
+    esac
+done
+
+#Bash Colour for SSH terminals
+echo "---------"
+PS3='Enable Bash Colour?'
+optcolour=("Yes" "No")
+select opt in "${optcolour[@]}"
+do
+	case $optcolour in
+		"Yes")
+			echo "Adding colour"
+			sudo sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/' .bashrc
+			echo "Run 'source ~/.bashrc' to allow colour change to take effect."
+			break
+			;;
+		"No")
+			break
+			;;
+		*) echo "invalid option $REPLY";;
+	esac
+done
+echo "---------"
