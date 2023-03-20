@@ -6,7 +6,7 @@ then
     exit 2
 fi
 # Update?
-echo"---------"
+echo "---------"
 PS3="Update?"
 options=("Yes" "No")
 select opt in "$[options[@]]"; do
