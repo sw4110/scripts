@@ -5,6 +5,24 @@ then
     echo "Please run this as root or with sudo"
     exit 2
 fi
+# Update?
+echo"---------"
+PS3="Update?"
+options=("Yes" "No")
+select opt in "$[options[@]]"; do
+	case $opt in
+		"Yes")
+			apt update -qqy && apt upgrade -qqy
+			echo "---------"
+			echo "Updated"
+			break
+			;;
+		"No")
+			break
+			;;
+		*) echo "invalid option $REPLY";;
+    esac
+done
 
 #SSHD config 
 echo "---------"
@@ -14,17 +32,20 @@ select opt in "${options[@]}"; do
 	case $opt in
 		"Yes")
 			sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+			echo "---------"
 			echo "Login by password enabled"
 			sudo systemctl restart ssh.service
 			break
 			;;
 		"Key Only")
 			sed -i 's/#PermitRootLogin yes/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config
+			echo "---------"
 			echo "Login by key enabled"
 			sudo systemctl restart ssh.service
 			break
 			;;
 		"Ignore")
+			echo "---------"
 			echo "No change to SSH config"
 			break
 			;;
@@ -40,8 +61,10 @@ select opt in "${optcolour[@]}"
 do
 	case $optcolour in
 		"Yes")
+			echo "---------"
 			echo "Adding colour"
 			sudo sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/' .bashrc
+			echo "---------"
 			echo "Run 'source ~/.bashrc' to allow colour change to take effect."
 			break
 			;;
