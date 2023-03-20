@@ -8,9 +8,9 @@ fi
 # Update?
 echo "---------"
 PS3="Update?"
-options=("Yes" "No")
-select opt in "$[options[@]]"; do
-	case $opt in
+optupdate=("Yes" "No")
+select opt in "${optupdate[@]}"; do
+	case $optupdate in
 		"Yes")
 			apt update -qqy && apt upgrade -qqy
 			echo "---------"
